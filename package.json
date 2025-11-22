@@ -2,9 +2,32 @@
   "name": "@0xdps/footer",
   "version": "1.1.0",
   "description": "A reusable footer component for multiple websites with easy management and consistent styling",
-  "main": "js/footer.js",
-  "react": "react/Footer.jsx",
+  "main": "react/Footer.jsx",
   "types": "react/Footer.d.ts",
+  "exports": {
+    ".": {
+      "types": "./react/Footer.d.ts",
+      "import": "./react/Footer.jsx",
+      "require": "./react/Footer.jsx",
+      "default": "./react/Footer.jsx"
+    },
+    "./react": {
+      "types": "./react/Footer.d.ts",
+      "import": "./react/Footer.jsx",
+      "require": "./react/Footer.jsx",
+      "default": "./react/Footer.jsx"
+    },
+    "./react/Footer": {
+      "types": "./react/Footer.d.ts",
+      "import": "./react/Footer.jsx",
+      "require": "./react/Footer.jsx",
+      "default": "./react/Footer.jsx"
+    },
+    "./react/Footer.tsx": "./react/Footer.tsx",
+    "./js": "./js/footer.js",
+    "./js/footer.js": "./js/footer.js",
+    "./package.json": "./package.json"
+  },
   "files": [
     "js/",
     "react/",
