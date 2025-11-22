@@ -26,25 +26,12 @@ Install from GitHub Packages:
 npm install @0xdps/footer
 ```
 
-**Note:** You need to authenticate with GitHub Packages. Create a `.npmrc` file in your project:
-
-```
-@0xdps:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
-```
-
-Or set the environment variable:
-
-```bash
-npm config set //npm.pkg.github.com/:_authToken YOUR_GITHUB_TOKEN
-```
-
 ### Vanilla JavaScript
 
 Use the CDN link hosted on GitHub Pages:
 
 ```html
-<script src="https://0xdps.github.io/footer/footer.js"></script>
+<script src="https://0xdps.github.io/footer/latest/footer.js"></script>
 ```
 
 ## Usage
@@ -61,7 +48,15 @@ export default function App() {
     return (
         <div>
             <main>Your content here</main>
+            
+            {/* Default footer */}
             <Footer />
+            
+            {/* Custom copyright info */}
+            <Footer 
+              copyrightCompany="Mockly"
+              copyrightText="Open source and free to use."
+            />
         </div>
     );
 }
@@ -75,21 +70,44 @@ export default function App() {
     return (
         <div>
             <main>Your content here</main>
-            <Footer />
+            <Footer 
+              copyrightCompany="Mockly"
+              copyrightText="Open source and free to use."
+            />
         </div>
     );
 }
 ```
 
+**Props:**
+- `copyrightCompany` - Company/project name (optional)
+- `copyrightText` - Additional copyright text (optional)
+
+Note: "Powered by 0xdps" is automatically appended
+
 ### Method 2: Vanilla JavaScript (CDN)
 
-Simply include the script tag in your HTML - it automatically creates and renders the footer:
+Simply include the script tag in your HTML with optional data attributes for custom copyright info:
 
 ```html
-<script src="https://0xdps.github.io/footer/v1.0.0/footer.js"></script>
+<!-- Default footer with brand name -->
+<script src="https://0xdps.github.io/footer/latest/footer.js"></script>
+
+<!-- Custom copyright info -->
+<script 
+  src="https://0xdps.github.io/footer/latest/footer.js"
+  data-copyright-company="Mockly"
+  data-copyright-text="Open source and free to use.">
+</script>
 ```
 
-That's it! The script will:
+**Data Attributes:**
+- `data-copyright-company` - Company/project name (e.g., "Mockly")
+- `data-copyright-text` - Additional copyright text (e.g., "Open source and free to use.")
+- Year is automatically set to current year
+- "Powered by 0xdps" is always included
+
+The script will:
 - Create a `<footer>` element if one doesn't exist
 - Render the footer with all projects and the Buy Me a Coffee widget
 - Works regardless of where you place the script tag

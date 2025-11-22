@@ -1,12 +1,12 @@
 /**
  * Footer Component
  * A reusable footer component for multiple websites
- * No configuration needed - all values are hardcoded
+ * Accepts custom copyright info via data attributes on script tag
  */
 
 const Footer = (() => {
-    // Fixed configuration - no user config needed
-    const config = {
+    // Default configuration
+    const defaultConfig = {
         brandName: '0xdps - dps.codes',
         sites: [
             {
@@ -32,6 +32,21 @@ const Footer = (() => {
         ]
     };
 
+    // Get script element and extract config
+    function getScriptConfig() {
+        const script = document.currentScript || document.querySelector('script[data-footer-config]');
+        if (!script) return {};
+
+        const year = new Date().getFullYear();
+        return {
+            copyrightCompany: script.getAttribute('data-copyright-company') || '',
+            copyrightText: script.getAttribute('data-copyright-text') || '',
+            year: year
+        };
+    }
+
+    const scriptConfig = getScriptConfig();
+
     /**
      * Create and return the footer DOM element
      * @returns {DocumentFragment} - Footer element
@@ -43,13 +58,41 @@ const Footer = (() => {
         const container = document.createElement('div');
         container.className = 'footer-container';
 
-        // Create left side with brand
+        // Create left side with copyright info
         const left = document.createElement('div');
         left.className = 'footer-left';
-        const brand = document.createElement('div');
-        brand.className = 'footer-brand';
-        brand.textContent = config.brandName;
-        left.appendChild(brand);
+
+        if (scriptConfig.copyrightCompany || scriptConfig.copyrightText) {
+            const copyright = document.createElement('div');
+            copyright.className = 'footer-copyright';
+            
+            let copyrightHtml = `© ${scriptConfig.year}`;
+            if (scriptConfig.copyrightCompany) {
+                copyrightHtml += ` ${scriptConfig.copyrightCompany}.`;
+            }
+            if (scriptConfig.copyrightText) {
+                copyrightHtml += ` ${scriptConfig.copyrightText}`;
+            }
+            
+            // Create the text first
+            const textNode = document.createTextNode(copyrightHtml + ' Powered by ');
+            copyright.appendChild(textNode);
+            
+            // Create the link
+            const link = document.createElement('a');
+            link.href = 'https://dps.codes';
+            link.target = '_blank';
+            link.textContent = '0xdps';
+            copyright.appendChild(link);
+            
+            left.appendChild(copyright);
+        } else {
+            // Fallback to brand name if no copyright config
+            const brand = document.createElement('div');
+            brand.className = 'footer-brand';
+            brand.textContent = defaultConfig.brandName;
+            left.appendChild(brand);
+        }
 
         // Create right side with navigation
         const right = document.createElement('div');
@@ -58,7 +101,7 @@ const Footer = (() => {
         nav.className = 'footer-nav';
         const ul = document.createElement('ul');
 
-        config.sites.forEach(site => {
+        defaultConfig.sites.forEach(site => {
             const li = document.createElement('li');
             const a = document.createElement('a');
             a.href = site.url;

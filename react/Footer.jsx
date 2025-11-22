@@ -3,11 +3,15 @@ import React, { useEffect } from 'react';
 /**
  * Footer Component - React
  * A reusable footer component for multiple websites
- * No configuration needed - all values are hardcoded
+ * Accepts custom copyright info as props
  * User only needs to provide styling via CSS classes
  */
 
-const Footer = () => {
+const Footer = ({ 
+    copyrightCompany = '', 
+    copyrightText = '' 
+}) => {
+    const year = new Date().getFullYear();
     const brandName = '0xdps - dps.codes';
     const sites = [
         {
@@ -31,6 +35,14 @@ const Footer = () => {
             url: 'https://fake-stack.readthedocs.io/'
         }
     ];
+
+    // Build copyright text
+    let copyrightDisplay = '';
+    if (copyrightCompany || copyrightText) {
+        copyrightDisplay = `© ${year}`;
+        if (copyrightCompany) copyrightDisplay += ` ${copyrightCompany}.`;
+        if (copyrightText) copyrightDisplay += ` ${copyrightText}`;
+    }
 
     // Load Buy Me a Coffee widget script
     useEffect(() => {
@@ -59,7 +71,16 @@ const Footer = () => {
     return (
         <footer className="footer-container">
             <div className="footer-left">
-                <div className="footer-brand">{brandName}</div>
+                {copyrightDisplay ? (
+                    <div className="footer-copyright">
+                        {copyrightDisplay} Powered by{' '}
+                        <a href="https://dps.codes" target="_blank" rel="noopener noreferrer">
+                            0xdps
+                        </a>
+                    </div>
+                ) : (
+                    <div className="footer-brand">{brandName}</div>
+                )}
             </div>
             <div className="footer-right">
                 <nav className="footer-nav">
