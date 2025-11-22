@@ -10,23 +10,13 @@ on:
 permissions:
   contents: read
   packages: write
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
 
 jobs:
-  publish-and-deploy:
+  publish:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Get version from tag
-        id: tag_version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -40,20 +30,3 @@ jobs:
 
       - name: Publish to GitHub Packages
         run: npm publish --registry https://npm.pkg.github.com
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Create dist directory with version prefix
-        run: |
-          mkdir -p dist/${{ steps.tag_version.outputs.VERSION }}
-          cp js/footer.js dist/${{ steps.tag_version.outputs.VERSION }}/footer.js
-          cp README.md dist/
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: 'dist'
-
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
