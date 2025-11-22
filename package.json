@@ -1,0 +1,29 @@
+{
+  "name": "@0xdps/footer",
+  "version": "1.0.0",
+  "description": "A reusable footer component for multiple websites with easy management and consistent styling",
+  "main": "js/footer.js",
+  "react": "react/Footer.jsx",
+  "types": "react/Footer.tsx",
+  "files": [
+    "js/",
+    "react/",
+    "README.md"
+  ],
+  "keywords": [
+    "footer",
+    "component",
+    "reusable",
+    "react",
+    "vanilla-js"
+  ],
+  "author": "0xdps",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/0xdps/footer.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
+}
