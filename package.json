@@ -21,7 +21,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/0xdps/footer.git"
+    "url": "git+https://github.com/0xdps/footer.git"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"

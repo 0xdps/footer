@@ -1,0 +1,59 @@
+name: Publish & Deploy
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  publish-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get version from tag
+        id: tag_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Configure npm registry
+        run: |
+          npm config set "@0xdps:registry" "https://npm.pkg.github.com"
+          npm config set "//npm.pkg.github.com/:_authToken" "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Publish to GitHub Packages
+        run: npm publish
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Create dist directory with version prefix
+        run: |
+          mkdir -p dist/${{ steps.tag_version.outputs.VERSION }}
+          cp js/footer.js dist/${{ steps.tag_version.outputs.VERSION }}/footer.js
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'dist'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2

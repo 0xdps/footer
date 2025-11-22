@@ -86,7 +86,7 @@ export default function App() {
 Simply include the script tag in your HTML - it automatically creates and renders the footer:
 
 ```html
-<script src="https://0xdps.github.io/footer/footer.js"></script>
+<script src="https://0xdps.github.io/footer/v1.0.0/footer.js"></script>
 ```
 
 That's it! The script will:
@@ -96,20 +96,26 @@ That's it! The script will:
 
 ## Deployment
 
-### GitHub Packages Deployment
+Everything is handled by a single GitHub Action: `.github/workflows/publish-and-deploy.yml`
 
-The React component is automatically published to [GitHub Packages](https://github.com/0xdps/footer/packages) when a new release is created.
+**Trigger:** Push a git tag like `v1.0.0`, `v1.0.1`, etc.
 
-**Trigger:** Create a release on GitHub
-**Action:** `.github/workflows/publish-packages.yml`
+When you push a tag:
+1. ✅ React component publishes to [GitHub Packages](https://github.com/0xdps/footer/packages)
+2. ✅ JavaScript file deploys to [GitHub Pages](https://0xdps.github.io/footer/)
 
-### GitHub Pages Deployment
+**Publish a new version:**
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
 
-The vanilla JavaScript file (`footer.js`) is automatically deployed to [GitHub Pages](https://0xdps.github.io/footer/) whenever changes are pushed to the `trunk` branch.
+**CDN URL:**
+```
+https://0xdps.github.io/footer/v1.0.0/footer.js
+```
 
-**Trigger:** Push to `trunk` branch (if `js/footer.js` changed)
-**Action:** `.github/workflows/deploy-pages.yml`
-**CDN URL:** `https://0xdps.github.io/footer/footer.js`
+Replace `v1.0.0` with the version you want to use.
 
 ## Configuration
 
