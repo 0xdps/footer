@@ -48,12 +48,12 @@ jobs:
         run: |
           mkdir -p dist/${{ steps.tag_version.outputs.VERSION }}
           cp js/footer.js dist/${{ steps.tag_version.outputs.VERSION }}/footer.js
+          cp README.md dist/
 
-      - name: Upload artifact
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: 'dist'
 
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
