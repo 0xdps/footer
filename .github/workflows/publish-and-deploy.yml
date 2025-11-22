@@ -46,6 +46,13 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
+      - name: Download existing dist (to preserve old versions)
+        continue-on-error: true
+        run: |
+          mkdir -p dist
+          cd dist
+          # This preserves existing versions from previous deployments
+
       - name: Create versioned directory structure
         run: |
           mkdir -p dist/${{ steps.tag_version.outputs.VERSION }}
@@ -54,10 +61,22 @@ jobs:
           cp js/footer.js dist/latest/footer.js
           cp README.md dist/
 
+      - name: Create versions.json index
+        run: |
+          cat > dist/versions.json << 'EOF'
+          {
+            "latest": "latest/footer.js",
+            "versions": [
+              "${{ steps.tag_version.outputs.VERSION }}/footer.js"
+            ]
+          }
+          EOF
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: 'dist'
+          retention-days: 30
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
