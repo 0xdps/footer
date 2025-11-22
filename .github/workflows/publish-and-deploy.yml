@@ -39,13 +39,25 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Get version from tag
+        id: tag_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
+
+      - name: Create versioned directory structure
+        run: |
+          mkdir -p dist/${{ steps.tag_version.outputs.VERSION }}
+          mkdir -p dist/latest
+          cp js/footer.js dist/${{ steps.tag_version.outputs.VERSION }}/footer.js
+          cp js/footer.js dist/latest/footer.js
+          cp README.md dist/
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: 'dist'
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
