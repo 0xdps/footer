@@ -1,0 +1,125 @@
+import React, { useEffect } from 'react';
+
+/**
+ * Props for the Footer component
+ */
+export interface FooterProps {
+    /**
+     * Company or project name to display in copyright notice
+     * @default ''
+     */
+    copyrightCompany?: string;
+    
+    /**
+     * Additional copyright text to display
+     * @default ''
+     */
+    copyrightText?: string;
+}
+
+/**
+ * Site navigation item
+ */
+interface Site {
+    name: string;
+    url: string;
+}
+
+/**
+ * Footer Component - React with TypeScript
+ * A reusable footer component for multiple websites
+ * Accepts custom copyright info as props
+ * User only needs to provide styling via CSS classes
+ */
+const Footer: React.FC<FooterProps> = ({ 
+    copyrightCompany = '', 
+    copyrightText = '' 
+}) => {
+    const year: number = new Date().getFullYear();
+    const brandName: string = '0xdps - dps.codes';
+    const sites: Site[] = [
+        {
+            name: 'Mockly',
+            url: 'https://www.mockly.codes/'
+        },
+        {
+            name: 'Pinboard GPT',
+            url: 'https://pinboard-gpt.dps.codes/'
+        },
+        {
+            name: 'DevUtil',
+            url: 'https://devutil.dps.codes/'
+        },
+        {
+            name: 'PingPong',
+            url: 'https://www.pingpong.codes/'
+        },
+        {
+            name: 'Fake Stack',
+            url: 'https://fake-stack.readthedocs.io/'
+        }
+    ];
+
+    // Build copyright text
+    let copyrightDisplay: string = '';
+    if (copyrightCompany || copyrightText) {
+        copyrightDisplay = `© ${year}`;
+        if (copyrightCompany) copyrightDisplay += ` ${copyrightCompany}.`;
+        if (copyrightText) copyrightDisplay += ` ${copyrightText}`;
+    }
+
+    // Load Buy Me a Coffee widget script
+    useEffect(() => {
+        const script: HTMLScriptElement = document.createElement('script');
+        script.src = 'https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js';
+        script.setAttribute('data-name', 'BMC-Widget');
+        script.setAttribute('data-cfasync', 'false');
+        script.setAttribute('data-id', '0xdps');
+        script.setAttribute('data-description', 'Support me on Buy me a coffee!');
+        script.setAttribute('data-message', '');
+        script.setAttribute('data-color', '#5F7FFF');
+        script.setAttribute('data-position', 'Right');
+        script.setAttribute('data-x_margin', '18');
+        script.setAttribute('data-y_margin', '18');
+        
+        document.body.appendChild(script);
+
+        return () => {
+            // Cleanup if needed
+            if (script.parentNode) {
+                script.parentNode.removeChild(script);
+            }
+        };
+    }, []);
+
+    return (
+        <footer className="footer-container">
+            <div className="footer-left">
+                {copyrightDisplay ? (
+                    <div className="footer-copyright">
+                        {copyrightDisplay} Powered by{' '}
+                        <a href="https://dps.codes" target="_blank" rel="noopener noreferrer">
+                            0xdps
+                        </a>
+                    </div>
+                ) : (
+                    <div className="footer-brand">{brandName}</div>
+                )}
+            </div>
+            <div className="footer-right">
+                <nav className="footer-nav">
+                    <ul>
+                        {sites.map((site: Site) => (
+                            <li key={site.name}>
+                                <a href={site.url}>{site.name}</a>
+                            </li>
+                        ))}
+                    </ul>
+                </nav>
+            </div>
+        </footer>
+    );
+};
+
+export default Footer;
+

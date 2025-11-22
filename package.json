@@ -4,7 +4,7 @@
   "description": "A reusable footer component for multiple websites with easy management and consistent styling",
   "main": "js/footer.js",
   "react": "react/Footer.jsx",
-  "types": "react/Footer.tsx",
+  "types": "react/Footer.d.ts",
   "files": [
     "js/",
     "react/",
@@ -25,5 +25,14 @@
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "typescript": "^5.0.0"
   }
 }
