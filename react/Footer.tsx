@@ -15,6 +15,12 @@ export interface FooterProps {
      * @default ''
      */
     copyrightText?: string;
+    
+    /**
+     * Whether to show the Buy Me a Coffee widget
+     * @default true
+     */
+    showBuyMeCoffee?: boolean;
 }
 
 /**
@@ -33,7 +39,8 @@ interface Site {
  */
 const Footer: React.FC<FooterProps> = ({ 
     copyrightCompany = '', 
-    copyrightText = '' 
+    copyrightText = '',
+    showBuyMeCoffee = true
 }) => {
     const year: number = new Date().getFullYear();
     const brandName: string = '0xdps - dps.codes';
@@ -70,6 +77,8 @@ const Footer: React.FC<FooterProps> = ({
 
     // Load Buy Me a Coffee widget script
     useEffect(() => {
+        if (!showBuyMeCoffee) return;
+
         const script: HTMLScriptElement = document.createElement('script');
         script.src = 'https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js';
         script.setAttribute('data-name', 'BMC-Widget');
@@ -90,7 +99,7 @@ const Footer: React.FC<FooterProps> = ({
                 script.parentNode.removeChild(script);
             }
         };
-    }, []);
+    }, [showBuyMeCoffee]);
 
     return (
         <footer className="footer-container">

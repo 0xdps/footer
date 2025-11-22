@@ -9,7 +9,8 @@ import React, { useEffect } from 'react';
 
 const Footer = ({ 
     copyrightCompany = '', 
-    copyrightText = '' 
+    copyrightText = '',
+    showBuyMeCoffee = true
 }) => {
     const year = new Date().getFullYear();
     const brandName = '0xdps - dps.codes';
@@ -46,6 +47,8 @@ const Footer = ({
 
     // Load Buy Me a Coffee widget script
     useEffect(() => {
+        if (!showBuyMeCoffee) return;
+
         const script = document.createElement('script');
         script.src = 'https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js';
         script.setAttribute('data-name', 'BMC-Widget');
@@ -66,7 +69,7 @@ const Footer = ({
                 script.parentNode.removeChild(script);
             }
         };
-    }, []);
+    }, [showBuyMeCoffee]);
 
     return (
         <footer className="footer-container">

@@ -15,6 +15,12 @@ export interface FooterProps {
      * @default ''
      */
     copyrightText?: string;
+    
+    /**
+     * Whether to show the Buy Me a Coffee widget
+     * @default true
+     */
+    showBuyMeCoffee?: boolean;
 }
 
 /**
